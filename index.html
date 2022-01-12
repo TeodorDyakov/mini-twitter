@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="center">
+      <h1 class = "header">Mini twitter</h1>
+      <h3 class = "subheader">Login</h3>
+      <div class = "container">
+        <div class="txt_field">
+          <input type="text" id="username" required placeholder = "Username"/>
+          <span></span>
+        </div>
+        <div class="txt_field">
+          <input type="password" id="password" required placeholder = "password"/>
+          <span></span>
+        </div>
+        <button value="Log in" id="button" onclick="logIn();">Login</button>
+        <p id="alert">Wrong username or password!</p>
+        <div class="signup_link"><a href="register.html">Create account</a></div>
+      </div>
+    </div>
+    
+    <script src="js/script.js" type="text/javascript"></script>
+  </body>
+</html>
