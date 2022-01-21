@@ -29,8 +29,12 @@
 
             if($row){
                 $username = $row["username"];
+                $imgUrl = '';
+                if($img){
+                    $imgUrl = "images".DIRECTORY_SEPARATOR.$name;
+                }
                 $query = $db->insertPost(array(':username' => $username, ':title' => $title, ':content' => $content,
-                ':date' => date("Y-m-d H:i:s"), ':img' => "images".DIRECTORY_SEPARATOR.$name));
+                ':date' => date("Y-m-d H:i:s"), ':img' => $imgUrl));
 
                 if(!$query["success"]){
                     echo $query["errors"];

@@ -147,7 +147,6 @@ function createPostDOM(post){
     iconDiv.appendChild(icon);
     iconDiv.width="100%";
     icon.onclick = function(event) {
-        console.log("AA");
         updateLikes(post["id"], likes);
     }
 
