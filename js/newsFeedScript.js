@@ -16,7 +16,7 @@ input.addEventListener("keyup",function(event){
 });
 
 function loadPosts(){
-    var url = "allPosts.php";
+    var url = "posts.php?id=" + 0;
     var xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function() {
@@ -101,8 +101,6 @@ function setLoggedUserData(){
 }
 
 function createPostDOM(post){
-
-
     const postDiv = document.createElement("div");
     const flex2Div = document.createElement("div");
     flex2Div.classList.add("flex2");
@@ -130,11 +128,12 @@ function createPostDOM(post){
     
     const p = document.createElement("p");
     postDiv.appendChild(p);
-
-    const img = document.createElement("img");
-    img.src=post["img"];
-    img.style.width = "300px";
-    postDiv.appendChild(img);
+    if(post["img"]){
+        const img = document.createElement("img");
+        img.src=post["img"];
+        img.style.width = "300px";
+        postDiv.appendChild(img);
+    }
     
     var iconDiv = document.createElement("div");
 
@@ -188,20 +187,45 @@ function getLastPosts(){
             }
         }
     }  
-    var url = "fetchpost.php?id=" + lastId;
+    var url = "posts.php?id=" + lastId;
     http.open("GET", url, true);
     http.send();
 }
 
 function createPost(){
-    var file = document.querySelector('#fileToUpload').files[0];
+    var file = null;
+    if(document.querySelector('#fileToUpload').length != 0){
+        file = document.querySelector('#fileToUpload').files[0];
+    }
+
+    var postContent = document.getElementById("postInput").value;
     
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function () {
-      var base64 = reader.result;
-      var postContent = document.getElementById("postInput").value;
     document.getElementById("postInput").value = "";
+    
+    var post = {
+        "img": "",
+        "title" : "",
+        "content" : postContent
+    }
+    if(file){
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = function () {
+            var base64 = reader.result;
+            post["img"] = base64;
+            postAJAX(post);
+        };
+
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }else{
+        postAJAX(post);
+    }    
+}
+
+function postAJAX(body){
     var url = "addPost.php";
     var xhttp = new XMLHttpRequest();
 
@@ -213,19 +237,9 @@ function createPost(){
         }
     };   
 
-    var post = {
-        "img": base64,
-        "title" : "",
-        "content" : postContent
-    }
-    console.log(post);
     xhttp.open("POST", url, true);
-    xhttp.send(JSON.stringify(post));
-    };
-    reader.onerror = function (error) {
-      console.log('Error: ', error);
-    };
-    
+    console.log(body);
+    xhttp.send(JSON.stringify(body));
 }
 
 function logout(){
@@ -236,11 +250,3 @@ function searchResult(){
     var searchtext = document.getElementById("search").value;
     window.location.href="searchResults.html?query="+ searchtext;
 }
-
-
-function getBase64(file) {
-   
- }
- 
-// prints the base64 string
- 

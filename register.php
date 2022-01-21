@@ -21,6 +21,7 @@
             setcookie("token", $token, 0, "/");
             $query = $db->insertUser(array(':username' => $username, ':pass' => $pass, 'token' => $token));
         }else{
+            http_response_code(409);
             echo json_encode("Username already taken!");
         } 
     }

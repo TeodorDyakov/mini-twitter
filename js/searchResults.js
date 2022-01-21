@@ -28,22 +28,44 @@ function createUserDOMelement(user){
     label.textContent = user["username"];
     const followButton = document.createElement("button");
  
+    followButton.innerText = "Follow";
+    
     if(user["isFollowed"] == true){
-        followButton.style.backgroundColor = "green";
-        followButton.innerText = "Followed";    
+        changeStyleOnFollow(followButton);
+        followButton.onclick = function(){
+            unfollowAction(user["username"], followButton);
+        }
     }else{
-        followButton.innerText = "Follow";
+        followButton.onclick = function(){
+            followAction(user["username"], followButton);
+        }
     }
  
     followButton.classList.add("follow-button");
-    followButton.onclick = function(){
-        followUser(localStorage.getItem("user"), user["username"]);
-    };
+
     div.appendChild(label);
     div.appendChild(followButton);
     
     const resultsDiv = document.getElementById("resultsDiv");
     resultsDiv.appendChild(div);
+}
+
+function changeStyleOnFollow(followButton){
+    followButton.style.backgroundColor = "red";
+    followButton.innerText = "Unfollow";
+}
+
+function followAction(toFollow, followButton){
+    followUser(localStorage.getItem("user"), toFollow);
+    changeStyleOnFollow(followButton);
+    followButton.onclick = function(){unfollowAction(toFollow, followButton)};
+};
+
+function unfollowAction(toUnfollow, followButton){
+    unfollowUser(localStorage.getItem("user"), toUnfollow);
+    followButton.style.backgroundColor = "teal";
+    followButton.innerText = "Follow";
+    followButton.onclick = function(){followAction(toUnfollow, followButton)};
 }
 
 function followUser(follower, following){
@@ -59,6 +81,25 @@ function followUser(follower, following){
     
     xhttp.send(JSON.stringify({
         "follower" : follower,
-        "following" : following 
+        "following" : following,
+        "follow" : true 
+    }));
+}
+
+function unfollowUser(follower, following){
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+
+        }
+    };
+
+    xhttp.open("POST", "followers.php");
+    
+    xhttp.send(JSON.stringify({
+        "follower" : follower,
+        "following" : following,
+        "follow" : false 
     }));
 }

@@ -10,7 +10,7 @@ CREATE TABLE `microblog_db`.`likes` ( `username` VARCHAR(20) NOT NULL ,  `post_i
 ALTER TABLE `likes` ADD PRIMARY KEY(`username`, `post_id`);
 CREATE TABLE `usersfollow` ( `follower` VARCHAR(20) NULL DEFAULT NULL , `following` VARCHAR(20) NULL DEFAULT NULL ) ENGINE = InnoDB;
 ALTER TABLE `usersfollow` ADD PRIMARY KEY(`follower`, `following`);
-ALTER TABLE `post` ADD `img` VARCHAR(30) NOT NULL AFTER `date`;
+ALTER TABLE `post` ADD `img` VARCHAR(100) NOT NULL AFTER `date`;
 /*
-SELECT * FROM post P LEFT JOIN usersfollow F ON P.username = F.following WHERE F.follower = 'teodor'
+SELECT * FROM post P LEFT JOIN followers F ON P.username = F.following WHERE F.follower = 'teodor'
 */

@@ -15,6 +15,7 @@ class Database
   private $search_user;
   private $follow_user;
   private $is_followed;
+  private $unfollow_user;
 
   public function __construct()
   {
@@ -74,10 +75,7 @@ class Database
     $sql = "INSERT into post (title, content, date, username, img) VALUES(:title, :content, :date, :username, :img)";
     $this->insert_post = $this->connection->prepare($sql);
 
-    $sql = "SELECT * FROM post";
-    $this->select_all_posts = $this->connection->prepare($sql);
-
-    $sql = "SELECT *  FROM post WHERE id > :id";
+    $sql = "SELECT * FROM post P LEFT JOIN followers F ON P.username = F.following WHERE F.follower = :username AND P.id > :id";
     $this->select_latest_posts = $this->connection->prepare($sql);
 
     $sql = "SELECT likes FROM post WHERE id=:id";
@@ -89,6 +87,9 @@ class Database
     $sql = "INSERT INTO followers (follower, following) VALUES (:followerUsername, :followingUsername)";
     $this->follow_user = $this->connection->prepare($sql);
 
+    $sql = "DELETE FROM followers WHERE follower = :followerUsername AND following = :followingUsername";
+    $this->unfollow_user = $this->connection->prepare($sql);
+
     $sql = "SELECT * FROM followers WHERE follower = :followerUsername AND following = :followingUsername";
     $this->is_followed = $this->connection->prepare($sql);
   } 
@@ -98,6 +99,16 @@ class Database
     try {
       $this->is_followed->execute($data);
       return ["success" => true, "data" => $this->is_followed];
+    } catch (PDOException $e) {
+      return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
+    }
+  }
+
+  public function unfollowUser($data)
+  {
+    try {
+      $this->unfollow_user->execute($data);
+      return ["success" => true, "data" => $this->unfollow_user];
     } catch (PDOException $e) {
       return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
     }
@@ -192,17 +203,6 @@ class Database
       $this->select_user_by_username->execute($data);
 
       return ["success" => true, "data" => $this->select_user_by_username];
-    } catch (PDOException $e) {
-      return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
-    }
-  }
-
-  public function selectAllPosts()
-  {
-    try {
-      $this->select_all_posts->execute();
-
-      return ["success" => true, "data" => $this->select_all_posts];
     } catch (PDOException $e) {
       return ["success" => false, "error" => "Connection failed: " . $e->getMessage()];
     }

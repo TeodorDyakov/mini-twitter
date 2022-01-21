@@ -43,6 +43,7 @@ function ajaxPOST(url, json){
 function register(){
     var username = document.getElementById("username").value;
     var pass = document.getElementById("password").value;
+    var repeatPass = document.getElementById("repeatPassword").value;
     
     var url = "register.php";
 
@@ -50,36 +51,38 @@ function register(){
         "username": username,
         "pass": pass,
     });
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.status == 200) {
-            
-            window.location="newsfeed.html";
-        }
-
-        else if(this.status==409){
-
-            var p = document.getElementById("par");
-            p.style.display="none";
-        }
-    };
+    let tooShort = document.getElementById("too-short");
+    let usernameTaken = document.getElementById("username-taken");
+    let dontMatch = document.getElementById("dont-match");
+    tooShort.style.display = "none";
+    usernameTaken.style.display = "none";
+    dontMatch.style.display = "none";
     
-    xhttp.open("POST", url, true);
-    xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhttp.send(JSON_string);
-}
-
-function addStatus(){
-    var title = document.getElementById("title").value;
-    var content = document.getElementById("textarea").value;
+    let passOk = true;
     
-    var url = "addPost.php";
+    if(pass.length < 6){
+        tooShort.style.display = "block";
+        passOk = false;
+    }
+    if(pass != repeatPass){
+        dontMatch.style.display = "block";
+        passOk = false;
+    }
 
-    var data = {
-    "title": title,
-    "content": content
-    };
+    if(passOk){
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.status == 200) {
+                window.location="newsfeed.html";
+            }
 
-    ajaxPOST(url, JSON.stringify(data));
+            else if(this.status==409){
+                usernameTaken.style.display = "block";
+            }
+        };
+        
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON_string);
+    }
 }

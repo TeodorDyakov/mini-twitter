@@ -5,30 +5,32 @@
     // header('Content-Type: application/json');
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+        $has_img = true;
         $data = json_decode(file_get_contents('php://input'), true);
         $title = $data["title"];
         $content = $data["content"];
         $img = $data["img"];
-
-        $name = generateRandomString(20).".jpeg";
-        $file = base64_to_jpeg($img,$name); 
-
+        
         if(isset($_COOKIE["token"])) {
             $token = $_COOKIE["token"];
             
             $query = $db->selectUsernameByToken(array(':token' => $token));
             $row = $query["data"]->fetch(PDO::FETCH_ASSOC);
             
-
-            $data = explode( ',', $img );
-            $base64 = $data[1];
-            sendImgJSONtoMLserver($base64, $name);
+            $name = "";
+            
+            if($img){
+                $name = generateRandomString(20).".jpeg";
+                $file = base64_to_jpeg($img,$name); 
+                $data = explode( ',', $img );
+                $base64 = $data[1];
+                // sendImgJSONtoMLserver($base64, $name);
+            }
 
             if($row){
                 $username = $row["username"];
                 $query = $db->insertPost(array(':username' => $username, ':title' => $title, ':content' => $content,
-                ':date' => date("Y-m-d H:i:s"), ':img' => $name));
+                ':date' => date("Y-m-d H:i:s"), ':img' => "images".DIRECTORY_SEPARATOR.$name));
 
                 if(!$query["success"]){
                     echo $query["errors"];
@@ -43,7 +45,7 @@
         
         $service_port = 12345;
 
-        $address = "172.24.126.137";
+        $address = "172.24.126.224";
 
         $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if ($socket === false) {
@@ -69,7 +71,7 @@
 
     function base64_to_jpeg($base64_string, $output_file) {
         // open the output file for writing
-        $ifp = fopen( $output_file, 'wb' ); 
+        $ifp = fopen( "images".DIRECTORY_SEPARATOR.$output_file, 'wb' ); 
         // split the string on commas
         // $data[ 0 ] == "data:image/png;base64"
         // $data[ 1 ] == <actual base64 string>

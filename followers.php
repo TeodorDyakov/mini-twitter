@@ -9,13 +9,22 @@
 
         $follower = $data['follower'];
         $following = $data['following'];
-        
-        $query = $db->followUser(array(
-            ':followerUsername' => $follower,
-            ':followingUsername' => $following
-        ));
-        
-        echo $query["success"];
+        $follow = $data['follow'];
+
+        if($follow == true){
+            $query = $db->followUser(array(
+                ':followerUsername' => $follower,
+                ':followingUsername' => $following
+            ));
+            echo $query[$follower." followed ".$following];
+        }else{
+            $query = $db->unfollowUser(array(
+                ':followerUsername' => $follower,
+                ':followingUsername' => $following
+            ));
+            echo $follower." unfollowed ".$following;
+        }
+    
         
     }
 ?>

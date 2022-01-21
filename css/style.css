@@ -291,8 +291,9 @@ p{
   display:none;
 }
 
-#par{
-  display:none;
+#dont-match, #too-short, #username-taken{
+  color: darkred;
+  display: none;
 }
 
 #flexProfilePicture{
