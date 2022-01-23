@@ -7,30 +7,41 @@
   </head>
   <body>
     <div class="center">
-      <h1 class = "header">Mini Twitter</h1>
-      <h3 class = "subheader">Login</h3>
-      <div class = "container">
-        <div class = "txt_field">
-          <input type="text" id="username" required placeholder = "Username"/>
+      <h1 class="header">Mini Twitter</h1>
+      <h3 class="subheader">Register</h3>
+      <div class="container">
+        <div class="txt_field">
+          <input type="text" id="username" required placeholder="Username" />
           <span></span>
         </div>
 
         <div class="txt_field">
-          <input type="password" id="password" required placeholder = "Password"/>
+          <input
+            type="password"
+            id="password"
+            required
+            placeholder="Password"
+          />
           <span></span>
         </div>
 
         <div class="txt_field">
-            <input type="password" id="repeatPassword" required placeholder = "Repeat pasword"/>
-            <span></span>
+          <input
+            type="password"
+            id="repeatPassword"
+            required
+            placeholder="Repeat pasword"
+          />
+          <span></span>
         </div>
 
-        <button value="Log in" id="button" onclick="register();">Register</button>
+        <button value="Log in" id="button" onclick="register();">
+          Register
+        </button>
         <p id="username-taken">Username already taken!</p>
         <p id="too-short">Password too short! Must be atleast 6 symbols!</p>
         <p id="dont-match">Passwords dont match!</p>
       </div>
-      
     </div>
 
     <script src="js/script.js" type="text/javascript"></script>

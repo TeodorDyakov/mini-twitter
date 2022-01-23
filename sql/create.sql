@@ -1,4 +1,6 @@
-CREATE TABLE `microblog_db`.`post` ( `id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(20) NOT NULL , `content` VARCHAR(2000) NOT NULL , `username` VARCHAR(20) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `microblog_db`.`post` ( `id` INT NOT NULL AUTO_INCREMENT , `title` VARCHAR(20) NOT NULL ,
+ `content` VARCHAR(2000) NOT NULL , `username` VARCHAR(20) NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 CREATE TABLE `microblog_db`.`user` ( `username` VARCHAR(20) NOT NULL , `pass` VARCHAR(20) NOT NULL ) ENGINE = InnoDB;
 ALTER TABLE `post` ADD `date` VARCHAR(100) NOT NULL AFTER `username`;
 ALTER TABLE `user` ADD PRIMARY KEY(`username`);
@@ -11,6 +13,10 @@ ALTER TABLE `likes` ADD PRIMARY KEY(`username`, `post_id`);
 CREATE TABLE `followers` ( `follower` VARCHAR(20) NULL DEFAULT NULL , `following` VARCHAR(20) NULL DEFAULT NULL ) ENGINE = InnoDB;
 ALTER TABLE `followers` ADD PRIMARY KEY(`follower`, `following`);
 ALTER TABLE `post` ADD `img` VARCHAR(100) NOT NULL AFTER `date`;
+ALTER TABLE `followers` ADD FOREIGN KEY (`follower`) REFERENCES `user`(`username`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `followers` ADD FOREIGN KEY (`following`) REFERENCES `user`(`username`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE `likes` ADD FOREIGN KEY (`username`) REFERENCES `user`(`username`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
 /*
 SELECT * FROM post P LEFT JOIN followers F ON P.username = F.following WHERE F.follower = 'teodor'
 */

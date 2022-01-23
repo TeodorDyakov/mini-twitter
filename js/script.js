@@ -73,6 +73,7 @@ function register(){
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (this.status == 200) {
+                localStorage.setItem("user", username);
                 window.location="newsfeed.html";
             }
 

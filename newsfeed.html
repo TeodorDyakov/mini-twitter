@@ -2,43 +2,62 @@
   <head>
     <title>MyFirstPage</title>
     <script
-    src="https://kit.fontawesome.com/50e23848ba.js"
-    crossorigin="anonymous"
-  ></script>
+      src="https://kit.fontawesome.com/50e23848ba.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <link rel="stylesheet" href="navbar-style.css" type="text/css" />
   </head>
   <body>
     <div class="topnav">
-      <a class="active" href="newsfeed.html">Home</a>
-      <div class="search-container">
-          <input type="text" placeholder="Search.." name="search" id="search">
-          <button type="submit" onclick = "searchResult();"><i class="fa fa-search"></i></button>
-      </div>
+      <a id="homeLink" class="active" onclick="home();">Home</a>
+      <a id="usersLink" class="" onclick="searchResult();">Users</a>
     </div>
-    
-    
-    <div class="centerProfile">
+
+    <div id="center-search-result">
+      <div class="search-container">
+        <input
+          type="text"
+          placeholder="Search users by username"
+          name="search"
+          id="search"
+          onkeyup = "searchResults();"
+        />
+      </div>
+
+      <div id="resultsDiv">
+      </div>
+
+    </div>
+
+    <div id="centerProfile">
       <div id="profile">
-        <img id = "big-profile-pic" src="profile.webp"/>
-        <h2 id="user">Martin Hristov</h2>
-        <div class = "change-profile-pic-div">
-            <label></label>
-            <input id = "imgURL" type = "text" placeholder = "img URL">
-            <button id = "change-profile-pic" value = "change picture" onclick="changeProfilePicture();">Change Picture</button>
+        <img id="big-profile-pic" src="profile.webp" />
+        <h2 id="user">Guest</h2>
+        <div class="change-profile-pic-div">
+          <label></label>
+          <input id="imgURL" type="text" placeholder="img URL" />
+          <button
+            id="change-profile-pic"
+            value="change picture"
+            onclick="changeProfilePicture();"
+          >
+            Change Picture
+          </button>
         </div>
         <div id="down">
-          <div id="log-out"><button class="btn" onclick="logout();">Log out</button></div>
+          <div id="log-out">
+            <button class="btn" onclick="logout();">Log out</button>
+          </div>
         </div>
       </div>
 
-      <div id="msgid">
-      </div>
+      <div id="msgid"></div>
 
       <div id="newsFeed">
         <div class="flexIconAndInput">
           <div id="flexProfilePicture">
-            <img id = "small-profile-pic" src="profile.webp"/>
+            <img id="small-profile-pic" src="profile.webp" />
             <input
               id="postInput"
               class="comment-bar"
@@ -47,9 +66,8 @@
             />
           </div>
           <div class="button-flex">
-
-              Select image to upload:
-              <input type="file" name="fileToUpload" id="fileToUpload">
+            Select image to upload:
+            <input type="file" name="fileToUpload" id="fileToUpload" />
 
             <button class="postButton" onclick="createPost();">Post</button>
           </div>
@@ -61,34 +79,13 @@
                         <label>&bull;
                         0 seconds ago</label>
                     </div>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                    culpa qui officia deserunt mollit anim id est laborum
+                    <p>Lorem ipsum dolor sit amet
                     </p>
                     <i class="far fa-thumbs-up"><label>3</label></i>
                 </div>    -->
         </ul>
       </div>
     </div>
-
-
     <script src="js/newsFeedScript.js"></script>
-    <script src="http://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-        <!-- Bootstrap JavaScript -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script type="text/javascript">
-          
-          </script>
-        </body>
+  </body>
 </html>

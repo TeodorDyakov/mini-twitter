@@ -34,14 +34,7 @@ body {
   float: right;
 }
 
-.topnav input[type=text] {
-  padding: 6px;
-  margin-top: 8px;
-  font-size: 17px;
-  border: none;
-}
-
-.topnav .search-container button {
+.search-container button {
   float: right;
   padding: 6px 10px;
   margin-top: 8px;
@@ -52,7 +45,7 @@ body {
   cursor: pointer;
 }
 
-.topnav .search-container button:hover {
+.search-container button:hover {
   background: #ccc;
 }
 

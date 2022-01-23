@@ -17,7 +17,7 @@
             $token = $_COOKIE["token"];
             $username = $db->selectUsernameByToken(array(':token' => $token))["data"]->fetch()["username"];
         }
-        // echo $username;
+                
         $query = $db->selectUserByUsername(array(':username' => $username));
         $row = $query["data"]->fetch(PDO::FETCH_ASSOC);
         echo json_encode($row);
